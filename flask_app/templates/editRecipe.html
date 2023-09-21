@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid justify-content-between">
+          <h1 class="me-2" type="button">Welcome {{loggedUser.first_name}}</h1>
+          <div>
+             <a href="/" class="btn btn-sm btn-outline-primary" type="button">Dashboard</a>
+            <a href="/logout" class="btn btn-sm btn-outline-secondary" type="button">Logout</a>
+          </div>
+        </div>
+    </nav>
+    <form action="/edit/recipe/{{recipe.id}}" method="post" class="w-75 m-auto p-5">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" value="{{recipe.name}}" class="form-control" name="name">
+        </div>
+        {% with messages = get_flashed_messages(category_filter=["name"]) %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="text-danger text-center">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" name="description" id="" cols="30" rows="5">{{recipe.description}}</textarea>
+        </div>
+        {% with messages = get_flashed_messages(category_filter=["description"]) %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="text-danger text-center">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="mb-3">
+          <label for="instructions" class="form-label">Instructions</label>
+          <textarea class="form-control" name="instructions" id="" cols="30" rows="5">{{recipe.instructions}}</textarea>
+      </div>
+      {% with messages = get_flashed_messages(category_filter=["instruction"]) %}
+      {% if messages %}
+      {% for message in messages %}
+      <p class="text-danger text-center">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <label for="dateMade" class="form-label">Date Made</label>
+            <input type="date" class="form-control" value="{{recipe.dateMade}}" name="dateMade">
+        </div>
+        {% with messages = get_flashed_messages(category_filter=["dateMade"]) %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="text-danger text-center">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="mb-3">
+          <p>Under 30?:</p>
+            {% if recipe.under30 == 1 %}
+              <input type="radio" checked id="yes" name="under30" value="1">
+              <label for="yes">Yes</label><br>
+              <input type="radio" id="no" name="under30" value="0">
+              <label for="no">No</label><br>
+            {% else %}
+              <input type="radio"  id="yes" name="under30" value="1">
+              <label for="yes">Yes</label><br>
+              <input type="radio" checked id="no" name="under30" value="0">
+              <label for="no">No</label><br>
+            {% endif %}
+          </div>
+      {% with messages = get_flashed_messages(category_filter=["dateMade"]) %}
+      {% if messages %}
+      {% for message in messages %}
+      <p class="text-danger text-center">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Update Recipe</button>
+
+    </form>
+    {% with messages = get_flashed_messages(category_filter=["updateDone"]) %}
+    {% if messages %}
+    {% for message in messages %}
+    <p class="text-success text-center">{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</body>
+</html>
